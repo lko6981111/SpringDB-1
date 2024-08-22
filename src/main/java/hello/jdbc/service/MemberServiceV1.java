@@ -5,7 +5,10 @@ import hello.jdbc.repository.MemberRepositoryV1;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.SQLException;
-
+/**
+ * 순수한 비즈니스 로직만 존재
+ * SQLException이라는 JDBC 기술에 의존
+ */
 @RequiredArgsConstructor // final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성해주는 롬복 어노테이션
 public class MemberServiceV1 {
 

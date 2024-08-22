@@ -15,6 +15,11 @@ import java.sql.SQLException;
  * 결국 서비스 계층에서 커넥션을 만들고, 트랜잭션 커밋 이후에 커넥션을 종료
  * 즉, 트랜잭션을 사용하는 동안 같은 커넥션을 유지(다른 커넥션을 맺으면 다른 세션이 맺어지므로)
  * 이러한 문제를 해결하기위해, 단순한 방법으로 커넥션을 파라미터로 전달해서 같은 커넥션이 사용되도록 유지
+ *
+ * 문제점
+ * 1. JDBC 구현 기술이 서비스 계층에 누수되는 문제
+ * 2. 트랜잭션 동기화 문제
+ * 3. 트랜잭션 적용 반복 문제
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -24,7 +29,7 @@ public class MemberServiceV2 {
     private final MemberRepositoryV2 memberRepository;
     //의존성 주입
 
-    public void accountTransfer(String fromId, String toId, int money) throws SQLException {
+    public void accountTransfer(String fromId, String toId, int money) throws SQLException { //SQLExceipin같은 JDBC 기술에 의존
         Connection con = dataSource.getConnection();
         //1.커넥션 유지가 필요한 각 메서드는 파라미터로 넘어온 커넥션을 사용해야한다.
         //2. 커넥션 유지가 필요한 두 메서드는 레포지토리에서 커넥션을 닫으면 안된다.
